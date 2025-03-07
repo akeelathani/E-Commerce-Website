@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - ShopEasy</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Additional styles for cart page */
+        .cart-header {
+            background-color: var(--secondary-color);
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .cart-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .breadcrumb a {
+            color: var(--light-text);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb .separator {
+            color: var(--light-text);
+        }
+        
+        .cart-container {
+            padding: 60px 0;
+        }
+        
+        .cart-empty {
+            text-align: center;
+            padding: 50px 0;
+        }
+        
+        .cart-empty i {
+            font-size: 4rem;
+            color: var(--light-text);
+            margin-bottom: 20px;
+        }
+        
+        .cart-empty h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .cart-empty p {
+            margin-bottom: 30px;
+            color: var(--light-text);
+        }
+        
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .cart-table th {
+            text-align: left;
+            padding: 15px;
+            background-color: var(--secondary-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .cart-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+        
+        .cart-product {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .cart-product img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .cart-product-info h3 {
+            margin-bottom: 5px;
+        }
+        
+        .cart-product-info p {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            width: fit-content;
+        }
+        
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            background-color: var(--secondary-color);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .quantity-input {
+            width: 40px;
+            height: 30px;
+            border: none;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .remove-btn {
+            color: var(--danger-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .cart-summary {
+            background-color: var(--secondary-color);
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        .cart-summary h2 {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .summary-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .continue-shopping {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .cart-coupon {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .cart-coupon input {
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .cart-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>ShopEasy</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="cart.html" class="cart-icon active"><i class="fas fa-shopping-cart"></i><span id="cart-count">0</span></a>
+                <a href="account.html" class="user-icon"><i class="fas fa-user"></i></a>
+                <div class="search-box">
+                    <input type="text" placeholder="Search products...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="cart-header">
+        <div class="container">
+            <h1>Shopping Cart</h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="separator">/</span>
+                <span>Cart</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="cart-container">
+        <div class="container">
+            <div id="cart-content">
+                <!-- Cart content will be loaded dynamically with JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ShopEasy</h3>
+                    <p>Your one-stop shop for all your needs at unbeatable prices.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="categories.html">Categories</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping Policy</a></li>
+                        <li><a href="returns.html">Returns & Refunds</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Commerce St, City, Country</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> support@shopeasy.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 ShopEasy. All Rights Reserved.</p>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load cart
+            loadCart();
+            
+            // Add event listener for cart changes
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'cart') {
+                    loadCart();
+                }
+            });
+        });
+        
+        function loadCart() {
+            const cartContent = document.getElementById('cart-content');
+            if (!cartContent) return;
+            
+            // Get cart from localStorage
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // If cart is empty
+            if (cart.length === 0) {
+                cartContent.innerHTML = `
+                    <div class="cart-empty">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h2>Your cart is empty</h2>
+                        <p>Looks like you haven't added any products to your cart yet.</p>
+                        <a href="products.html" class="btn">Continue Shopping</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Calculate cart totals
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const shipping = subtotal > 100 ? 0 : 10;
+            const total = subtotal + shipping;
+            
+            // Create cart HTML
+            let cartHTML = `
+                <div class="cart-grid">
+                    <div class="cart-items">
+                        <table class="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+            
+            // Add cart items
+            cart.forEach(item => {
+                const itemSubtotal = item.price * item.quantity;
+                
+                cartHTML += `
+                    <tr data-id="${item.id}">
+                        <td>
+                            <div class="cart-product">
+                                <img src="${item.image}" alt="${item.name}">
+                                <div class="cart-product-info">
+                                    <h3>${item.name}</h3>
+                                </div>
+                            </div>
+                        </td>
+                        <td>$${item.price.toFixed(2)}</td>
+                        <td>
+                            <div class="quantity-control">
+                                <button class="quantity-btn decrease-btn" data-id="${item.id}">-</button>
+                                <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                                <button class="quantity-btn increase-btn" data-id="${item.id}">+</button>
+                            </div>
+                        </td>
+                        <td>$${itemSubtotal.toFixed(2)}</td>
+                        <td>
+                            <button class="remove-btn" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            cartHTML += `
+                            </tbody>
+                        </table>
+                        
+                        <div class="cart-actions">
+                            <a href="products.html" class="continue-shopping">
+                                <i class="fas fa-arrow-left"></i> Continue Shopping
+                            </a>
+                            <div class="cart-coupon">
+                                <input type="text" placeholder="Coupon code">
+                                <button class="btn">Apply Coupon</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-summary">
+                        <h2>Cart Summary</h2>
+                        <div class="summary-item">
+                            <span>Subtotal</span>
+                            <span>$${subtotal.toFixed(2)}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Shipping</span>
+                            <span>${shipping === 0 ? 'Free' : '$' + shipping.toFixed(2)}</span>
+                        </div>
+                        <div class="summary-item summary-total">
+                            <span>Total</span>
+                            <span>$${total.toFixed(2)}</span>
+                        </div>
+                        <button class="btn checkout-btn">Proceed to Checkout</button>
+                    </div>
+                </div>
+            `;
+            
+            cartContent.innerHTML = cartHTML;
+            
+            // Add event listeners for cart actions
+            addCartEventListeners();
+        }
+        
+        function addCartEventListeners() {
+            // Increase quantity
+            const increaseButtons = document.querySelectorAll('.increase-btn');
+            increaseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    updateCartItemQuantity(id, 1);
+                });
+            });
+            
+            // Decrease quantity
+            const decreaseButtons = document.querySelectorAll('.decrease-btn');
+            decreaseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    updateCartItemQuantity(id, -1);
+                });
+            });
+            
+            // Remove item
+            const removeButtons = document.querySelectorAll('.remove-btn');
+            removeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    removeCartItem(id);
+                });
+            });
+            
+            // Checkout button
+            const checkoutButton = document.querySelector('.checkout-btn');
+            if (checkoutButton) {
+                checkoutButton.addEventListener('click', function() {
+                    alert('Thank you for your order! This is a demo, so no actual payment will be processed.');
+                    // Clear cart
+                    localStorage.removeItem('cart');
+                    loadCart();
+                    updateCartCount([]);
+                });
+            }
+        }
+        
+        function updateCartItemQuantity(id, change) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            const itemIndex = cart.findIndex(item => item.id === id);
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity += change;
+                
+                // Remove item if quantity is 0 or less
+                if (cart[itemIndex].quantity <= 0) {
+                    cart.splice(itemIndex, 1);
+                }
+                
+                // Save cart to localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+                
+                // Reload cart
+                loadCart();
+                updateCartCount(cart);
+            }
+        }
+        
+        function removeCartItem(id) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            const itemIndex = cart.findIndex(item => item.id === id);
+            if (itemIndex > -1) {
+                cart.splice(itemIndex, 1);
+                
+                // Save cart to localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+                
+                // Reload cart
+                loadCart();
+                updateCartCount(cart);
+            }
+        }
+    </script>
+</body>
+</html> 

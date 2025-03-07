@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail - ShopEasy</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Additional styles for product detail page */
+        .product-header {
+            background-color: var(--secondary-color);
+            padding: 40px 0;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .breadcrumb a {
+            color: var(--light-text);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb .separator {
+            color: var(--light-text);
+        }
+        
+        .product-detail {
+            padding: 60px 0;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        
+        .product-images {
+            position: relative;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .image-gallery {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .thumbnail:hover, .thumbnail.active {
+            border-color: var(--primary-color);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .product-info h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .product-category {
+            color: var(--light-text);
+            margin-bottom: 15px;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .stars {
+            color: #ffc107;
+            margin-right: 10px;
+        }
+        
+        .rating-count {
+            color: var(--light-text);
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .current-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-right: 15px;
+        }
+        
+        .old-price {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            text-decoration: line-through;
+        }
+        
+        .product-description {
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        
+        .stock-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .in-stock {
+            color: var(--success-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .in-stock i {
+            margin-right: 5px;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary-color);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            border: none;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .add-to-cart-btn {
+            flex: 1;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .add-to-cart-btn:hover {
+            background-color: #3a5bd0;
+        }
+        
+        .product-meta {
+            margin-bottom: 30px;
+        }
+        
+        .meta-item {
+            margin-bottom: 10px;
+            display: flex;
+        }
+        
+        .meta-label {
+            font-weight: 600;
+            width: 120px;
+        }
+        
+        .social-share {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .share-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        .share-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .product-tabs {
+            margin-top: 60px;
+        }
+        
+        .tabs-nav {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .tab-btn {
+            padding: 15px 30px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+            line-height: 1.8;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .related-products {
+            padding: 60px 0;
+            background-color: var(--secondary-color);
+        }
+        
+        .related-products h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>ShopEasy</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html" class="active">Products</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="cart.html" class="cart-icon"><i class="fas fa-shopping-cart"></i><span id="cart-count">0</span></a>
+                <a href="account.html" class="user-icon"><i class="fas fa-user"></i></a>
+                <div class="search-box">
+                    <input type="text" placeholder="Search products...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="product-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="separator">/</span>
+                <a href="products.html">Products</a>
+                <span class="separator">/</span>
+                <span id="product-name">Wireless Bluetooth Headphones</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-grid">
+                <div class="product-images">
+                    <img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Wireless Bluetooth Headphones" class="main-image" id="main-product-image">
+                    <div class="product-badge" id="product-badge">Sale</div>
+                    <div class="image-gallery">
+                        <img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Thumbnail 1" class="thumbnail active">
+                        <img src="https://images.pexels.com/photos/3394665/pexels-photo-3394665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Thumbnail 2" class="thumbnail">
+                        <img src="https://images.pexels.com/photos/577769/pexels-photo-577769.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Thumbnail 3" class="thumbnail">
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h1 id="detail-product-name">Wireless Bluetooth Headphones</h1>
+                    <div class="product-category" id="product-category">Electronics</div>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-count" id="rating-count">(128 reviews)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price" id="current-price">$79.99</span>
+                        <span class="old-price" id="old-price">$129.99</span>
+                    </div>
+                    <div class="product-description" id="product-description">
+                        Experience premium sound quality with these comfortable wireless headphones. Features noise cancellation and 20-hour battery life.
+                    </div>
+                    <div class="stock-status">
+                        <span class="in-stock"><i class="fas fa-check-circle"></i> In Stock</span>
+                    </div>
+                    <div class="product-actions">
+                        <div class="quantity-control">
+                            <button class="quantity-btn" id="decrease-quantity">-</button>
+                            <input type="text" class="quantity-input" id="quantity" value="1" readonly>
+                            <button class="quantity-btn" id="increase-quantity">+</button>
+                        </div>
+                        <button class="add-to-cart-btn" id="add-to-cart">Add to Cart</button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">SKU:</span>
+                            <span>WH-1001</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Category:</span>
+                            <span>Electronics</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Tags:</span>
+                            <span>Headphones, Wireless, Bluetooth, Audio</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Share:</span>
+                            <div class="social-share">
+                                <a href="#" class="share-btn"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="share-btn"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="share-btn"><i class="fab fa-pinterest"></i></a>
+                                <a href="#" class="share-btn"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-tabs">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" data-tab="description">Description</button>
+                    <button class="tab-btn" data-tab="specifications">Specifications</button>
+                    <button class="tab-btn" data-tab="reviews">Reviews</button>
+                </div>
+                <div class="tab-content active" id="description">
+                    <p>Experience premium sound quality with these comfortable wireless headphones. The perfect companion for your music, podcasts, and calls.</p>
+                    <p>Features include:</p>
+                    <ul>
+                        <li>Bluetooth 5.0 connectivity for stable connection</li>
+                        <li>Active noise cancellation to block out ambient noise</li>
+                        <li>20-hour battery life for all-day listening</li>
+                        <li>Built-in microphone for hands-free calls</li>
+                        <li>Foldable design for easy storage and portability</li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="specifications">
+                    <table>
+                        <tr>
+                            <td><strong>Connectivity</strong></td>
+                            <td>Bluetooth 5.0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Battery Life</strong></td>
+                            <td>Up to 20 hours</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Charging Time</strong></td>
+                            <td>2 hours</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Driver Size</strong></td>
+                            <td>40mm</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Frequency Response</strong></td>
+                            <td>20Hz - 20kHz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Impedance</strong></td>
+                            <td>32 Ohm</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Weight</strong></td>
+                            <td>250g</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Color Options</strong></td>
+                            <td>Black, White, Blue</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-content" id="reviews">
+                    <div class="review">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h4>Amazing sound quality!</h4>
+                        <p>These headphones have incredible sound quality and the noise cancellation works great. Battery life is as advertised and they're very comfortable to wear for long periods.</p>
+                        <div class="reviewer">
+                            <span>John D.</span>
+                            <span>Verified Buyer</span>
+                        </div>
+                    </div>
+                    <div class="review">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <h4>Good value for money</h4>
+                        <p>For the price, these headphones are excellent. The sound is clear and the battery lasts a long time. My only complaint is that they're a bit tight on my head.</p>
+                        <div class="reviewer">
+                            <span>Sarah M.</span>
+                            <span>Verified Buyer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="related-products">
+        <div class="container">
+            <h2 class="section-title">Related Products</h2>
+            <div class="related-grid" id="related-products">
+                <!-- Related products will be loaded dynamically with JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ShopEasy</h3>
+                    <p>Your one-stop shop for all your needs at unbeatable prices.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="categories.html">Categories</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping Policy</a></li>
+                        <li><a href="returns.html">Returns & Refunds</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Commerce St, City, Country</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> support@shopeasy.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 ShopEasy. All Rights Reserved.</p>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id')) || 1; // Default to first product if no ID
+            
+            // Find product
+            const product = products.find(p => p.id === productId) || products[0];
+            
+            // Update product details
+            updateProductDetails(product);
+            
+            // Load related products
+            loadRelatedProducts(product);
+            
+            // Initialize quantity controls
+            initQuantityControls();
+            
+            // Initialize tabs
+            initTabs();
+            
+            // Initialize image gallery
+            initImageGallery();
+            
+            // Add to cart button
+            const addToCartBtn = document.getElementById('add-to-cart');
+            if (addToCartBtn) {
+                addToCartBtn.addEventListener('click', function() {
+                    const quantity = parseInt(document.getElementById('quantity').value);
+                    addToCartWithQuantity(product, quantity);
+                });
+            }
+        });
+        
+        function updateProductDetails(product) {
+            // Update product name
+            document.getElementById('product-name').textContent = product.name;
+            document.getElementById('detail-product-name').textContent = product.name;
+            
+            // Update category
+            document.getElementById('product-category').textContent = product.category;
+            
+            // Update price
+            document.getElementById('current-price').textContent = `$${product.price.toFixed(2)}`;
+            
+            // Update old price if exists
+            const oldPriceElement = document.getElementById('old-price');
+            if (product.oldPrice) {
+                oldPriceElement.textContent = `$${product.oldPrice.toFixed(2)}`;
+                oldPriceElement.style.display = 'inline';
+            } else {
+                oldPriceElement.style.display = 'none';
+            }
+            
+            // Update description
+            document.getElementById('product-description').textContent = product.description;
+            
+            // Update badge if exists
+            const badgeElement = document.getElementById('product-badge');
+            if (product.badge) {
+                badgeElement.textContent = product.badge;
+                badgeElement.style.display = 'block';
+            } else {
+                badgeElement.style.display = 'none';
+            }
+            
+            // Update rating
+            document.getElementById('rating-count').textContent = `(${product.ratingCount} reviews)`;
+            
+            // Update main image
+            document.getElementById('main-product-image').src = product.image;
+        }
+        
+        function loadRelatedProducts(currentProduct) {
+            const relatedProductsContainer = document.getElementById('related-products');
+            if (!relatedProductsContainer) return;
+            
+            // Get products in the same category
+            const relatedProducts = products.filter(product => 
+                product.category === currentProduct.category && product.id !== currentProduct.id
+            ).slice(0, 4); // Limit to 4 related products
+            
+            // Clear container
+            relatedProductsContainer.innerHTML = '';
+            
+            // Add related products
+            relatedProducts.forEach(product => {
+                const productCard = createProductCard(product);
+                relatedProductsContainer.appendChild(productCard);
+            });
+        }
+        
+        function initQuantityControls() {
+            const decreaseBtn = document.getElementById('decrease-quantity');
+            const increaseBtn = document.getElementById('increase-quantity');
+            const quantityInput = document.getElementById('quantity');
+            
+            decreaseBtn.addEventListener('click', function() {
+                let quantity = parseInt(quantityInput.value);
+                if (quantity > 1) {
+                    quantityInput.value = quantity - 1;
+                }
+            });
+            
+            increaseBtn.addEventListener('click', function() {
+                let quantity = parseInt(quantityInput.value);
+                quantityInput.value = quantity + 1;
+            });
+        }
+        
+        function initTabs() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+        
+        function initImageGallery() {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const mainImage = document.getElementById('main-product-image');
+            
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    // Remove active class from all thumbnails
+                    thumbnails.forEach(thumb => thumb.classList.remove('active'));
+                    
+                    // Add active class to clicked thumbnail
+                    this.classList.add('active');
+                    
+                    // Update main image
+                    mainImage.src = this.src;
+                });
+            });
+        }
+        
+        function addToCartWithQuantity(product, quantity) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Check if product already in cart
+            const existingProductIndex = cart.findIndex(item => item.id === product.id);
+            
+            if (existingProductIndex > -1) {
+                // Increase quantity
+                cart[existingProductIndex].quantity += quantity;
+            } else {
+                // Add new product to cart
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: quantity
+                });
+            }
+            
+            // Save cart to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update cart count
+            updateCartCount(cart);
+            
+            // Show success message
+            alert(`${product.name} added to cart!`);
+        }
+    </script>
+</body>
+</html> 
