@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - ShopEasy</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Additional styles for about page */
+        .about-header {
+            background-color: var(--secondary-color);
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .about-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .breadcrumb a {
+            color: var(--light-text);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb .separator {
+            color: var(--light-text);
+        }
+        
+        .about-container {
+            padding: 60px 0;
+        }
+        
+        .about-section {
+            margin-bottom: 60px;
+        }
+        
+        .about-section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .about-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .mission-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .mission-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .mission-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .mission-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .mission-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .team-section {
+            background-color: var(--secondary-color);
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .team-section h2 {
+            margin-bottom: 40px;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .team-member {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+        
+        .member-image {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .team-member:hover .member-image img {
+            transform: scale(1.1);
+        }
+        
+        .member-info {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .member-info h3 {
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+        
+        .member-position {
+            color: var(--light-text);
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .member-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .member-social a {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        .member-social a:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .stats-section {
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .stat-item {
+            padding: 30px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--light-text);
+        }
+        
+        .brands-section {
+            padding: 60px 0;
+            background-color: var(--secondary-color);
+            text-align: center;
+        }
+        
+        .brands-section h2 {
+            margin-bottom: 40px;
+        }
+        
+        .brands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .brand-item {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            transition: transform 0.3s ease;
+        }
+        
+        .brand-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .brand-item img {
+            max-width: 100%;
+            max-height: 60px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+        
+        .brand-item:hover img {
+            filter: grayscale(0%);
+        }
+        
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                order: 1;
+            }
+            
+            .about-content {
+                order: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>ShopEasy</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="cart.html" class="cart-icon"><i class="fas fa-shopping-cart"></i><span id="cart-count">0</span></a>
+                <a href="account.html" class="user-icon"><i class="fas fa-user"></i></a>
+                <div class="search-box">
+                    <input type="text" placeholder="Search products...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="about-header">
+        <div class="container">
+            <h1>About Us</h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="separator">/</span>
+                <span>About Us</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-container">
+        <div class="container">
+            <div class="about-section">
+                <div class="about-grid">
+                    <div class="about-content">
+                        <h2>Our Story</h2>
+                        <p>Founded in 2015, ShopEasy began with a simple mission: to make online shopping truly easy and enjoyable for everyone. What started as a small operation with just a handful of products has grown into a comprehensive e-commerce platform offering thousands of quality items across multiple categories.</p>
+                        <p>Our journey has been driven by our commitment to customer satisfaction and our passion for bringing the best products to your doorstep. We believe that shopping should be a hassle-free experience, and we work tirelessly to make that a reality for our customers.</p>
+                        <p>Today, ShopEasy serves customers nationwide, with plans for international expansion in the coming years. Despite our growth, we remain true to our core values of quality, affordability, and exceptional customer service.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="ShopEasy Team">
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>Our Mission & Values</h2>
+                <p>At ShopEasy, we're guided by a clear mission and a strong set of values that shape everything we do.</p>
+                
+                <div class="mission-values">
+                    <div class="mission-card">
+                        <i class="fas fa-bullseye"></i>
+                        <h3>Our Mission</h3>
+                        <p>To provide a seamless shopping experience with quality products at competitive prices, making e-commerce accessible to everyone.</p>
+                    </div>
+                    <div class="mission-card">
+                        <i class="fas fa-star"></i>
+                        <h3>Quality</h3>
+                        <p>We carefully curate our product selection, ensuring that every item meets our high standards of quality and durability.</p>
+                    </div>
+                    <div class="mission-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Customer First</h3>
+                        <p>Our customers are at the heart of everything we do. We listen to your feedback and continuously improve our services to meet your needs.</p>
+                    </div>
+                    <div class="mission-card">
+                        <i class="fas fa-leaf"></i>
+                        <h3>Sustainability</h3>
+                        <p>We're committed to reducing our environmental impact through eco-friendly packaging and sustainable business practices.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title">Meet Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="John Smith">
+                    </div>
+                    <div class="member-info">
+                        <h3>John Smith</h3>
+                        <div class="member-position">Founder & CEO</div>
+                        <p>With over 15 years of experience in retail and e-commerce, John leads our company with vision and passion.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Sarah Johnson">
+                    </div>
+                    <div class="member-info">
+                        <h3>Sarah Johnson</h3>
+                        <div class="member-position">Head of Operations</div>
+                        <p>Sarah ensures that our operations run smoothly, from inventory management to order fulfillment.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Michael Brown">
+                    </div>
+                    <div class="member-info">
+                        <h3>Michael Brown</h3>
+                        <div class="member-position">Product Manager</div>
+                        <p>Michael leads our product team, constantly seeking out new and innovative items to add to our catalog.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Emily Davis">
+                    </div>
+                    <div class="member-info">
+                        <h3>Emily Davis</h3>
+                        <div class="member-position">Customer Service Manager</div>
+                        <p>Emily and her team are dedicated to providing exceptional support and ensuring customer satisfaction.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <h2 class="section-title">Our Growth in Numbers</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">50,000+</div>
+                    <div class="stat-label">Happy Customers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5,000+</div>
+                    <div class="stat-label">Products</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Satisfaction Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Customer Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="brands-section">
+        <div class="container">
+            <h2 class="section-title">Brands We Partner With</h2>
+            <div class="brands-grid">
+                <div class="brand-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/2560px-Samsung_Logo.svg.png" alt="Samsung">
+                </div>
+                <div class="brand-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1667px-Apple_logo_black.svg.png" alt="Apple">
+                </div>
+                <div class="brand-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Adidas_Logo.svg/2560px-Adidas_Logo.svg.png" alt="Adidas">
+                </div>
+                <div class="brand-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Logo_NIKE.svg/1200px-Logo_NIKE.svg.png" alt="Nike">
+                </div>
+                <div class="brand-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png" alt="Microsoft">
+                </div>
+                <div class="brand-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Xiaomi_logo.svg/1024px-Xiaomi_logo.svg.png" alt="Xiaomi">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ShopEasy</h3>
+                    <p>Your one-stop shop for all your needs at unbeatable prices.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="categories.html">Categories</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping Policy</a></li>
+                        <li><a href="returns.html">Returns & Refunds</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Commerce St, City, Country</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> support@shopeasy.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 ShopEasy. All Rights Reserved.</p>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load cart count
+            initCart();
+        });
+    </script>
+</body>
+</html> 
